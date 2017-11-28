@@ -2,8 +2,8 @@
 
 using namespace std;
 
-int main (){
-	int arr[11][11], temp=0;
+int fungsi(int x){
+	int arr[x][x], temp=0;
 	arr[0][0]=3;
 	temp = arr[0][0];
 	for (int a=1; a<=9; a++){
@@ -19,4 +19,9 @@ int main (){
 		}
 	cout << endl;
 	}
+}
+
+int main (){
+	int a=11;
+	fungsi(a);
 }
