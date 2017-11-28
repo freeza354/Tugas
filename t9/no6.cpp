@@ -1,31 +1,37 @@
 #include<iostream>
 using namespace std;
 
+int fungsi(int x){
+	int xTemp;
+	xTemp=x;
+for (int i=0; i<2*x-1; i++){
+		cout << xTemp;
+		for (int j=0; j<9; j++){
+			cout << xTemp;
+		}
+		cout << endl;
+		xTemp--;
+		if (xTemp<2){
+			break;
+		}
+	}
+	for (int i=0; i<2*x-1; i++){
+		cout << xTemp;
+		for (int j=0; j<9; j++){
+			cout << xTemp;
+		}
+		cout << endl;
+		xTemp++;
+		if (xTemp==x+1){
+			break;
+		}
+	}
+
+}
+
 int main (){
-	int n, nTemp=0, cek=0;
+	int n;
 	cout << "masukkan nilai n :";
 	cin >> n;
-	nTemp=n;
-	for (int i=0; i<2*n-1; i++){
-		cout << nTemp;
-		for (int j=0; j<9; j++){
-			cout << nTemp;
-		}
-		cout << endl;
-		nTemp--;
-		if (nTemp<2){
-			break;
-		}
-	}
-	for (int i=0; i<2*n-1; i++){
-		cout << nTemp;
-		for (int j=0; j<9; j++){
-			cout << nTemp;
-		}
-		cout << endl;
-		nTemp++;
-		if (nTemp==n+1){
-			break;
-		}
-	}
+	fungsi(n);
 }
