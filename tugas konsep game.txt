@@ -1,0 +1,4 @@
+Game : Tic Tac Toe
+Konsep : bermain tic tac toe 2 player, dengan score berasal dari jumlah menang 2 player
+Win condition : Bisa membuat 3 lingkaran (O) atau huruf x (X) dalam 1 garis lurus
+Lose condition : Player lain sudah membuat garis lurus sebelum kita selesai
