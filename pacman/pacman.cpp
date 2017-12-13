@@ -16,12 +16,6 @@ char maps[7][7] = {
     '#','#','#','#','#','#','#',
 };
 void printMap();
-struct earth{
-    bool dinding;
-    bool pellet;
-    bool player;
-    bool enemy;
-};
 
 int main(){
     int a = 3, b = 3;
@@ -98,16 +92,5 @@ void printMap(){
         }
         cout << endl;
     }
-    /*cout << "#######" << endl;
-    cout << "#     #" << endl;
-    cout << "# # # #" << endl;
-    cout << "#     #" << endl;
-    cout << "# # # #" << endl;
-    cout << "#     #" << endl;
-    cout << "#######" << endl;*/
 }
 
-/*int movement(){
-    char pilihjalur;
-    cin >> pilihjalur;
-}*/
