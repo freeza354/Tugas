@@ -23,54 +23,61 @@ int angka_top[7][5]={0, 0, 0, 0, 0,
                      0, 0, 0, 0, 0,
                      0, 0, 0, 0, 0}; // isi map diatas
 int koor = 2; // inisialisasi kooardinat awal pemain
-int turun_parm = 0;
 bool game_con = false, game_exit = false; // trigger kondisi game
 int angka_btm[5]={0,0,50,0,0}; // isi map dibawah
-int rand_batas = 20, batas_rand_plus = 10;
+int pemain = 50;
+int batas_rand_min = 20;
+int batas_rand_plus = 10;
+int board_j_size = 5;
+int board_i_size = 7;
 int score = 0;
-int player = 50;
 
-void acak_angka();
+void hitung_score();
+void acak();
+void tambah();
 void print_map_btm();
 void pindah_kar();
 void print_map_top();
 void turun();
-void acak_tambah();
-void perhitungan();
+void cek_game();
 
 int rand_min_1, rand_min_2, rand_min_3, rand_min_4, rand_min_5, rand_plus_1, rand_plus_2, rand_plus_3;
 
 int main(){
-    int hitung_keluaran = 0;
+    int hitungan=1;
     srand(time(NULL)); // Random generator
-    while(game_con == false||game_exit == false){
-        hitung_keluaran++;
-        if(hitung_keluaran >= 5 && hitung_keluaran%2 == 0){
-            acak_angka();
-            turun();
-            turun_parm++;
+    while(game_con == false){
+        //acak();
+        if (hitungan%2==0){
+            tambah();
         }
-        else{
-
+        else if(hitungan%2!=0){
+            acak();
         }
-        perhitungan();
         print_map_top();
         print_map_btm();
         pindah_kar();
         //Sleep(250);
         system("cls");
-        if (score == 100){
-            rand_batas +=20;
+        turun();
+        hitung_score();
+        cek_game();
+        hitungan++;
+        cout << hitungan;
+        if(score>=250&&batas_rand_min==20){
+            batas_rand_min += 20;
+            batas_rand_plus += 10;
         }
-        if(player <= 0) {
-            game_con = true;
-            print_map_top();
-            print_map_btm();
-            pindah_kar();
-            break;
+        else if(score>=500&&batas_rand_min==40){
+            batas_rand_min += 20;
+            batas_rand_plus += 10;
+        }
+        else if(score>=1000&&batas_rand_min==60){
+            batas_rand_min += 20;
+            batas_rand_plus += 10;
         }
     }
-
+    cout << "Skor anda :" << score;
 }
 
 void print_map_btm(){
@@ -82,13 +89,14 @@ void print_map_btm(){
         cout << map_btm[i];
         }
         else{
-            if(angka_btm[hfa]!=0){
-                if(angka_btm[hfa]<10){
-                    cout << "  " << angka_btm[hfa];
-                }
-                else {
-                    cout << " " << angka_btm[hfa];
-                }
+            if(angka_btm[hfa]!=0&&angka_btm[hfa]>=100){
+                cout << angka_btm[hfa]; // print map isinya jika ternyata tidak 0
+            }
+            else if(angka_btm[hfa]!=0&&angka_btm[hfa]>=10){
+                cout << " " << angka_btm[hfa];
+            }
+            else if(angka_btm[hfa]!=0&&angka_btm[hfa]<10){
+                cout << "  " << angka_btm[hfa];
             }
             else{
                 cout << "   "; // print map menjadi spasi jika ternyata isinya 0
@@ -101,7 +109,7 @@ void print_map_btm(){
 void pindah_kar() // fungsi untuk memindahkan angka dibawah
     {
     cout << endl << "Gunakan A dan D untuk pindah!" << endl;
-    cout << "Skor anda : " << score;
+    cout << endl << "Skor anda saat ini :" << score;
     pindah=getch();
     switch (pindah){
         case 'a' :
@@ -110,7 +118,7 @@ void pindah_kar() // fungsi untuk memindahkan angka dibawah
             if(koor == -1){
                 koor+=1;
             }
-            angka_btm[koor] = player;
+            angka_btm[koor] = pemain;
             break;
         case 'd' :
             angka_btm[koor] = 0;
@@ -118,7 +126,7 @@ void pindah_kar() // fungsi untuk memindahkan angka dibawah
             if(koor == 5){
                 koor-=1;
             }
-            angka_btm[koor] = player;
+            angka_btm[koor] = pemain;
             break;
         case 'A' :
             angka_btm[koor] = 0;
@@ -126,7 +134,7 @@ void pindah_kar() // fungsi untuk memindahkan angka dibawah
             if(koor == 0){
                 koor+=1;
             }
-            angka_btm[koor] = player;
+            angka_btm[koor] = pemain;
             break;
         case 'D' :
             angka_btm[koor] = 0;
@@ -134,7 +142,7 @@ void pindah_kar() // fungsi untuk memindahkan angka dibawah
             if(koor == 5){
                 koor-=1;
             }
-            angka_btm[koor] = player;
+            angka_btm[koor] = pemain;
             break;
         default :
             cout << "Invalid Input!" << endl;
@@ -152,24 +160,19 @@ void print_map_top() // fungsi untuk menge-print map atas
                 cout << map_top[a][b];
             }
             else if(b%2!=0&&a!=7){
-                if(angka_top[hitungX][hitungY] == 0){
+                if(angka_top[hitungX][hitungY]==0){
                     cout << "   ";
                 }
+                else if(angka_top[hitungX][hitungY]>=100){
+                    cout << angka_top[hitungX][hitungY];
+                }
+                else if(angka_top[hitungX][hitungY]>=10){
+                    cout << " " << angka_top[hitungX][hitungY];
+                }
                 else{
-                    if (angka_top[hitungX][hitungY] <= 9){
-                        cout << "  " << angka_top[hitungX][hitungY];
-                    }
-                    else if (angka_top[hitungX][hitungY] >= 10){
-                        cout << " " << angka_top[hitungX][hitungY];
-                    }
-                    else if (angka_top[hitungX][hitungY] > 99){
-                        cout << angka_top[hitungX][hitungY];
-                    }
+                    cout << "  " << angka_top[hitungX][hitungY];
                 }
                 hitungY++;
-            }
-            else{
-                cout << map_top[a][b] << "_";
             }
         }
         cout << endl;
@@ -178,33 +181,59 @@ void print_map_top() // fungsi untuk menge-print map atas
     }
 }
 
-void acak_angka() // fungsi untuk mengacak angka
+void acak()
 {
-    rand_min_1 = (rand()%rand_batas)+1;
-    rand_min_2 = (rand()%rand_batas)+1;
-    rand_min_3 = (rand()%rand_batas)+1;
-    rand_min_4 = (rand()%rand_batas)+1;
-    rand_min_5 = (rand()%rand_batas)+1;
-}
-
-void turun(){
-    angka_top[turun_parm][0] = rand_min_1;
-    angka_top[turun_parm][1] = rand_min_2;
-    angka_top[turun_parm][2] = rand_min_3;
-    angka_top[turun_parm][3] = rand_min_4;
-    angka_top[turun_parm][4] = rand_min_5;
-    if(turun_parm==7){
-        turun_parm = 0;
+    for(int i=0; i< board_j_size; i++)
+    {
+        angka_top[0][i] = (rand()%batas_rand_min)+1;
     }
 }
 
-void perhitungan(){
+void tambah(){
+    int kotak_acak;
+    kotak_acak = (rand()%4);
+    angka_top[0][kotak_acak] = (rand()%batas_rand_plus+1);
+}
+
+void turun()
+{
+    int temp[board_j_size];
+    int temp2[board_j_size];
+    for(int w=0; w<board_i_size; w++)
+    {
+        for(int j=0; j<board_j_size; j++)
+        {
+            if(w > 0)
+            {
+                if(w==1)
+                {
+                    temp[j] =  angka_top[w][j];
+                    angka_top[w][j] = angka_top[w-1][j];
+                }
+                else
+                {
+                    temp2[j] =  angka_top[w][j];
+                    angka_top[w][j] = temp[j];
+                    temp[j] = temp2[j];
+                }
+            }
+        }
+    }
+}
+
+void hitung_score(){
     for (int garis=0; garis<=4; garis++)
         if (angka_top[6][garis] != 0 && angka_btm [garis] != 0){
-            player -= angka_top[6][garis];
+            pemain -= angka_top[6][garis];
             score += angka_top[6][garis];
         }
         else {
 
         }
+}
+
+void cek_game(){
+    if(pemain<=0){
+        game_con=true;
+    }
 }
