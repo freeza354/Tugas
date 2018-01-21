@@ -24,8 +24,8 @@ int angka_top[7][5]={0, 0, 0, 0, 0,
                      0, 0, 0, 0, 0}; // isi map diatas
 int koor = 2; // inisialisasi kooardinat awal pemain
 bool game_con = false, game_exit = false; // trigger kondisi game
-int angka_btm[5]={0,0,50,0,0}; // isi map dibawah
-int pemain = 50;
+int angka_btm[5]={0,0,100,0,0}; // isi map dibawah
+int pemain = 100;
 int batas_rand_min = 20;
 int batas_rand_plus = 10;
 int board_j_size = 5;
@@ -63,7 +63,6 @@ int main(){
         hitung_score();
         cek_game();
         hitungan++;
-        cout << hitungan;
         if(score>=250&&batas_rand_min==20){
             batas_rand_min += 20;
             batas_rand_plus += 10;
@@ -164,13 +163,28 @@ void print_map_top() // fungsi untuk menge-print map atas
                     cout << "   ";
                 }
                 else if(angka_top[hitungX][hitungY]>=100){
-                    cout << angka_top[hitungX][hitungY];
+                    if(angka_top[hitungX][hitungY]>batas_rand_plus){
+                        cout << angka_top[hitungX][hitungY];
+                    }
+                    else{
+                        cout << "+" << angka_top;
+                    }
                 }
                 else if(angka_top[hitungX][hitungY]>=10){
-                    cout << " " << angka_top[hitungX][hitungY];
+                    if(angka_top[hitungX][hitungY]>batas_rand_plus){
+                        cout << " " << angka_top[hitungX][hitungY];
+                    }
+                    else {
+                        cout << "+" << angka_top[hitungX][hitungY];
+                    }
                 }
                 else{
-                    cout << "  " << angka_top[hitungX][hitungY];
+                    if(angka_top[hitungX][hitungY]>batas_rand_plus){
+                        cout << "  " << angka_top[hitungX][hitungY];
+                    }
+                    else {
+                        cout << " +" << angka_top[hitungX][hitungY];
+                    }
                 }
                 hitungY++;
             }
@@ -185,7 +199,7 @@ void acak()
 {
     for(int i=0; i< board_j_size; i++)
     {
-        angka_top[0][i] = (rand()%batas_rand_min)+1;
+        angka_top[0][i] = (rand()%batas_rand_min)+11;
     }
 }
 
@@ -224,8 +238,13 @@ void turun()
 void hitung_score(){
     for (int garis=0; garis<=4; garis++)
         if (angka_top[6][garis] != 0 && angka_btm [garis] != 0){
-            pemain -= angka_top[6][garis];
-            score += angka_top[6][garis];
+            if(angka_top[6][garis]>batas_rand_plus){
+                pemain -= angka_top[6][garis];
+                score += angka_top[6][garis];
+            }
+            else {
+                pemain += angka_top[6][garis];
+            }
         }
         else {
 
